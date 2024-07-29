@@ -8,7 +8,7 @@ namespace ASze.CustomPlayButton
 {
     public class EditorSelectScenePopup : PopupWindowContent
     {
-        const float COLLUMN_WIDTH = 200.0f;
+        const float COLLUMN_WIDTH = 350.0f;
         readonly GUILayoutOption[] ICON_LAYOUT = new GUILayoutOption[] {
             GUILayout.Width(20.0f), GUILayout.Height(20.0f)
         };

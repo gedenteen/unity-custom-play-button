@@ -119,7 +119,7 @@ namespace ASze.CustomPlayButton
             GUILayout.FlexibleSpace();
 
             var sceneName = selectedScene != null ? selectedScene.name : "Select Scene...";
-            var selected = EditorGUILayout.DropdownButton(new GUIContent(sceneName), FocusType.Passive, GUILayout.Width(128.0f));
+            var selected = EditorGUILayout.DropdownButton(new GUIContent(sceneName), FocusType.Passive, GUILayout.Width(250.0f)); //128.0f
             if (Event.current.type == EventType.Repaint)
             {
                 buttonRect = GUILayoutUtility.GetLastRect();
