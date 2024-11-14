@@ -8,7 +8,6 @@ namespace ASze.CustomPlayButton
 {
     public class EditorSelectScenePopup : PopupWindowContent
     {
-        const float COLLUMN_WIDTH = 350.0f;
         readonly GUILayoutOption[] ICON_LAYOUT = new GUILayoutOption[] {
             GUILayout.Width(20.0f), GUILayout.Height(20.0f)
         };
@@ -71,7 +70,7 @@ namespace ASze.CustomPlayButton
 
         public override Vector2 GetWindowSize()
         {
-            var width = COLLUMN_WIDTH * (CustomPlayButton.Bookmark.HasBookmark() ? 2 : 1);
+            var width = CustomPlayButton.GuiSettings.ColumnWidth * (CustomPlayButton.Bookmark.HasBookmark() ? 2 : 1);
             var maxRow = Mathf.Max(buildScenes.Length, CustomPlayButton.Bookmark.bookmarks.Count, 1);
             var height = Mathf.Min(22 * maxRow + 26, Screen.currentResolution.height * 0.5f);
             return new Vector2(width, height);
@@ -133,7 +132,7 @@ namespace ASze.CustomPlayButton
             var bookmarkSetting = CustomPlayButton.Bookmark;
             if (!bookmarkSetting.HasBookmark()) return;
 
-            EditorGUILayout.BeginVertical(GUILayout.MinWidth(COLLUMN_WIDTH));
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(CustomPlayButton.GuiSettings.ColumnWidth));
 
             var content = new GUIContent(bookmarkContent);
             content.text = "Bookmark";

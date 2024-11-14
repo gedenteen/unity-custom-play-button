@@ -24,12 +24,13 @@ namespace ASze.CustomPlayButton
     {
 #if UNITY_TOOLBAR_EXTENDER
         const string FOLDER_PATH = "Assets/Editor/CustomPlayButton/";
-        const string SETTING_PATH = FOLDER_PATH + "BookmarkSetting.asset";
+        const string BOOKMARK_SETTING_PATH = FOLDER_PATH + "BookmarkSetting.asset";
+        const string GUI_SETTING_PATH = FOLDER_PATH + "GuiSettings.asset";
         const string ICONS_PATH = "Packages/com.antonysze.custom-play-button/Editor/Icons/";
 
         private static SceneBookmark bookmark = null;
+        private static GuiSettings guiSettings = null;
         private static SceneAsset selectedScene = null;
-
 
         static GUIContent customSceneContent;
         static GUIContent gameSceneContent;
@@ -47,10 +48,26 @@ namespace ASze.CustomPlayButton
                     bookmark = ScriptableObject.CreateInstance<SceneBookmark>();
                     if (!Directory.Exists(FOLDER_PATH))
                         Directory.CreateDirectory(FOLDER_PATH);
-                    AssetDatabase.CreateAsset(bookmark, SETTING_PATH);
+                    AssetDatabase.CreateAsset(bookmark, BOOKMARK_SETTING_PATH);
                     AssetDatabase.Refresh();
                 }
                 return bookmark;
+            }
+        }
+
+        public static GuiSettings GuiSettings
+        {
+            get
+            {
+                if (guiSettings == null)
+                {
+                    guiSettings = ScriptableObject.CreateInstance<GuiSettings>();
+                    if (!Directory.Exists(FOLDER_PATH))
+                        Directory.CreateDirectory(FOLDER_PATH);
+                    AssetDatabase.CreateAsset(guiSettings, GUI_SETTING_PATH);
+                    AssetDatabase.Refresh();
+                }
+                return guiSettings;
             }
         }
 
@@ -98,8 +115,13 @@ namespace ASze.CustomPlayButton
 
             if (bookmark == null)
             {
-                bookmark = AssetDatabase.LoadAssetAtPath<SceneBookmark>(SETTING_PATH);
+                bookmark = AssetDatabase.LoadAssetAtPath<SceneBookmark>(BOOKMARK_SETTING_PATH);
                 Bookmark?.RemoveNullValue();
+            }
+
+            if (guiSettings == null)
+            {
+                guiSettings = AssetDatabase.LoadAssetAtPath<GuiSettings>(GUI_SETTING_PATH);
             }
 
             var savedScenePath = EditorPrefs.GetString(GetEditorPrefKey(), "");
@@ -119,7 +141,7 @@ namespace ASze.CustomPlayButton
             GUILayout.FlexibleSpace();
 
             var sceneName = selectedScene != null ? selectedScene.name : "Select Scene...";
-            var selected = EditorGUILayout.DropdownButton(new GUIContent(sceneName), FocusType.Passive, GUILayout.Width(250.0f)); //128.0f
+            var selected = EditorGUILayout.DropdownButton(new GUIContent(sceneName), FocusType.Passive, GUILayout.Width(GuiSettings.DropdownWidth));
             if (Event.current.type == EventType.Repaint)
             {
                 buttonRect = GUILayoutUtility.GetLastRect();
