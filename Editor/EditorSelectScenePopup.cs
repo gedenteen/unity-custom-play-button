@@ -188,7 +188,7 @@ namespace ASze.CustomPlayButton
             }
             else
             {
-                if (GUILayout.Button(EditorGUIUtility.IconContent("d_winbtn_win_close", "Unbookmark"), buttonStyle, ICON_LAYOUT))
+                if (GUILayout.Button(EditorGUIUtility.IconContent("d_P4_DeletedLocal", "Unbookmark"), buttonStyle, ICON_LAYOUT))
                 {
                     var bookmarks = CustomPlayButton.Bookmark.bookmarks;
                     bookmarks.Remove(scene);
