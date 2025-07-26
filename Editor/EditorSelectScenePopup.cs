@@ -8,10 +8,11 @@ namespace ASze.CustomPlayButton
 {
     public class EditorSelectScenePopup : PopupWindowContent
     {
+        const float ICON_SIZE = 20f;
+        const float TITLE_BUTTON_HEIGHT = 20f;
         readonly GUILayoutOption[] ICON_LAYOUT = new GUILayoutOption[] {
-            GUILayout.Width(20.0f), GUILayout.Height(20.0f)
+            GUILayout.Width(ICON_SIZE), GUILayout.Height(ICON_SIZE)
         };
-
 
         GUIStyle titleButtonStyle;
         GUIStyle buttonStyle;
@@ -58,6 +59,7 @@ namespace ASze.CustomPlayButton
             titleButtonStyle.onHover = buttonStyle.onHover;
             titleButtonStyle.hover = buttonStyle.hover;
             titleButtonStyle.normal.background = blankTex;
+            titleButtonStyle.fontStyle = FontStyle.Bold;
         }
 
         public static Texture2D MakeTex(Color col)
@@ -71,7 +73,9 @@ namespace ASze.CustomPlayButton
         public override Vector2 GetWindowSize()
         {
             var width = CustomPlayButton.GuiSettings.ColumnWidth * (CustomPlayButton.Bookmark.HasBookmark() ? 2 : 1);
-            var maxRow = Mathf.Max(buildScenes.Length, CustomPlayButton.Bookmark.bookmarks.Count, 1);
+            var bookmarksCount = CustomPlayButton.Bookmark.bookmarks.Count;
+            var rightPartRows = bookmarksCount > 0 ? bookmarksCount + 1 : 0;
+            var maxRow = Mathf.Max(buildScenes.Length, rightPartRows, 1);
             var height = Mathf.Min(22 * maxRow + 26, Screen.currentResolution.height * 0.5f);
             return new Vector2(width, height);
         }
@@ -100,7 +104,7 @@ namespace ASze.CustomPlayButton
             EditorGUILayout.BeginVertical();
 
             EditorGUILayout.BeginHorizontal();
-            GUILayout.Label("Scenes in Build", EditorStyles.boldLabel, GUILayout.Height(20.0f));
+            GUILayout.Label("Scenes in Build", EditorStyles.boldLabel, GUILayout.Height(TITLE_BUTTON_HEIGHT));
             if (!CustomPlayButton.Bookmark.HasBookmark())
             {
                 GUILayout.FlexibleSpace();
@@ -135,13 +139,19 @@ namespace ASze.CustomPlayButton
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(CustomPlayButton.GuiSettings.ColumnWidth));
 
             var content = new GUIContent(bookmarkContent);
-            content.text = "Bookmark";
-            if (GUILayout.Button(content, titleButtonStyle, GUILayout.Height(20.0f)))
+            content.text = "Open Bookmarks SO";
+            if (GUILayout.Button(content, titleButtonStyle, GUILayout.Height(TITLE_BUTTON_HEIGHT)))
             {
                 Selection.activeObject = CustomPlayButton.Bookmark;
             }
 
-
+            var contentButtonAddScene = new GUIContent(bookmarkContent);
+            contentButtonAddScene.text = "Bookmark current scene";
+            if (GUILayout.Button(contentButtonAddScene, titleButtonStyle, GUILayout.Height(TITLE_BUTTON_HEIGHT)))
+            {
+                Selection.activeObject = CustomPlayButton.AddCurrentScene;
+            }
+            
             scrollPosBookmark = EditorGUILayout.BeginScrollView(scrollPosBookmark);
             var bookmarks = new List<SceneAsset>(bookmarkSetting.bookmarks);
             foreach (var bookmark in bookmarks)
@@ -207,12 +217,14 @@ namespace ASze.CustomPlayButton
 
         void SelectScene(SceneAsset scene)
         {
+            if (scene == null) return;
             CustomPlayButton.SelectedScene = scene;
             editorWindow.Close();
         }
 
         void OpenScene(SceneAsset scene)
         {
+            if (scene == null) return;
             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             {
                 var scenePath = AssetDatabase.GetAssetPath(scene);

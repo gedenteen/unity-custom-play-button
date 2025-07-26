@@ -55,6 +55,23 @@ namespace ASze.CustomPlayButton
             }
         }
 
+        public static SceneBookmark AddCurrentScene
+        {
+            get
+            {
+                if (bookmark == null)
+                {
+                    bookmark = ScriptableObject.CreateInstance<SceneBookmark>();
+                    if (!Directory.Exists(FOLDER_PATH))
+                        Directory.CreateDirectory(FOLDER_PATH);
+                    AssetDatabase.CreateAsset(bookmark, BOOKMARK_SETTING_PATH);
+                    AssetDatabase.Refresh();
+                }
+                bookmark.AddCurrentScene();
+                return bookmark;
+            }
+        }
+
         public static GuiSettings GuiSettings
         {
             get
