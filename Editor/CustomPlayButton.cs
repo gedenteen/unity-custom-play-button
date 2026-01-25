@@ -26,7 +26,7 @@ namespace ASze.CustomPlayButton
         const string FOLDER_PATH = "Assets/Editor/CustomPlayButton/";
         const string BOOKMARK_SETTING_PATH = FOLDER_PATH + "BookmarkSetting.asset";
         const string GUI_SETTING_PATH = FOLDER_PATH + "GuiSettings.asset";
-        const string ICONS_PATH = "Packages/com.antonysze.custom-play-button/Editor/Icons/";
+        const string ICONS_PATH = "Packages/com.gedenteen.custom-play-button/Editor/Icons/";
 
         private static SceneBookmark bookmark = null;
         private static GuiSettings guiSettings = null;
@@ -149,8 +149,8 @@ namespace ASze.CustomPlayButton
                 SelectedScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
             }
 
-            customSceneContent = CreateIconContent("PlaySceneButton.png", "d_UnityEditor.Timeline.TimelineWindow@2x", "Play Custom Scene");
-            gameSceneContent = CreateIconContent("PlayGameButton.png", "d_UnityEditor.GameView@2x", "Play Game Scene");
+            customSceneContent = CreateIconContent("PlaySceneButton.png", "d_UnityEditor.Timeline.TimelineWindow@2x", "Play choosed scene");
+            gameSceneContent = CreateIconContent("PlayGameButton.png", "d_UnityEditor.GameView@2x", "Play first scene from build scenes");
         }
 
         static void OnToolbarLeftGUI()
