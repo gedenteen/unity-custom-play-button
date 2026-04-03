@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEditor;
+using UnityEditor.Compilation;
 
 #if UNITY_TOOLBAR_EXTENDER
 using UnityToolbarExtender;
@@ -25,11 +28,13 @@ namespace ASze.CustomPlayButton
         {
             m_sliderValue = EditorPrefs.GetFloat("TimeScaleSlider", 1f);
             ToolbarExtender.RightToolbarGUI.Add(OnToolbarGUI);
+
+            CompilationPipeline.compilationFinished += OnCompilationFinished;
         }
 
         static void OnToolbarGUI()
         {
-            GUILayout.Label($"TimeScale: {m_sliderValue:F2}", GUILayout.Width(95f));
+            GUILayout.Label($"TimeScale: {m_sliderValue:F2}", GUILayout.Width(100f));
           
             EditorGUI.BeginChangeCheck();
             m_sliderValue = GUILayout.HorizontalSlider(m_sliderValue, 0f, 2f, GUILayout.Width(150f));
@@ -50,6 +55,8 @@ namespace ASze.CustomPlayButton
             {
                 ApplyTimeScale(1f);
             }
+
+            GUILayout.Label($"Last compile: {EditorPrefs.GetString("LastCompileTime", "—")}");
         }    
         
         static void ApplyTimeScale(float value)
@@ -57,6 +64,13 @@ namespace ASze.CustomPlayButton
             m_sliderValue = value;
             Time.timeScale = value;
             // EditorPrefs.SetFloat("TimeScaleSlider", value);
+        }
+
+        private static void OnCompilationFinished(object context)
+        {
+            // Debug.Log($"OnCompilationFinished: {DateTime.UtcNow}");
+            var now = DateTime.UtcNow + TimeSpan.FromHours(5);
+            EditorPrefs.SetString("LastCompileTime", now.ToString("HH:mm:ss"));
         }
     }
 }
