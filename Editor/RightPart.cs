@@ -20,11 +20,11 @@ using VisualElement = UnityEngine.Experimental.UIElements.VisualElement;
 namespace ASze.CustomPlayButton
 {
     [InitializeOnLoad]
-    public static class SliderTimeScale
+    public static class RightPart
     {
         static float m_sliderValue = 1f;
     
-        static SliderTimeScale()
+        static RightPart()
         {
             m_sliderValue = EditorPrefs.GetFloat("TimeScaleSlider", 1f);
             ToolbarExtender.RightToolbarGUI.Add(OnToolbarGUI);
