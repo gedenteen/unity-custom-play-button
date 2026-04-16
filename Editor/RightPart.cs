@@ -1,15 +1,10 @@
-﻿using System;
+﻿#if UNITY_TOOLBAR_EXTENDER
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Compilation;
-
-#if UNITY_TOOLBAR_EXTENDER
 using UnityToolbarExtender;
-#else
-using UnityEditor.PackageManager;
-using UnityEditor.PackageManager.Requests;
-#endif
 
 #if UNITY_2019_1_OR_NEWER
 using VisualElement = UnityEngine.UIElements.VisualElement;
@@ -56,9 +51,12 @@ namespace ASze.CustomPlayButton
                 ApplyTimeScale(1f);
             }
 
-            GUILayout.Label($"Last compile: {EditorPrefs.GetString("LastCompileTime", "—")}");
-        }    
-        
+            if (CustomPlayButton.GuiSettings.ShouldShowCompileTime)
+            {
+                GUILayout.Label($"Last compile: {EditorPrefs.GetString("LastCompileTime", "—")}");
+            }
+        }
+
         static void ApplyTimeScale(float value)
         {
             m_sliderValue = value;
@@ -68,9 +66,10 @@ namespace ASze.CustomPlayButton
 
         private static void OnCompilationFinished(object context)
         {
-            // Debug.Log($"OnCompilationFinished: {DateTime.UtcNow}");
-            var now = DateTime.UtcNow + TimeSpan.FromHours(5);
-            EditorPrefs.SetString("LastCompileTime", now.ToString("HH:mm:ss"));
+            // Convert UTC time to local system timezone
+            var localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.Local);
+            EditorPrefs.SetString("LastCompileTime", localTime.ToString("HH:mm:ss"));
         }
     }
 }
+#endif

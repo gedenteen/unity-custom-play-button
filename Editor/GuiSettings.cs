@@ -8,5 +8,6 @@ namespace ASze.CustomPlayButton
     {
         public float DropdownWidth = 250f;
         public float ColumnWidth = 350f;
+        public bool ShouldShowCompileTime = true;
     }
 }
