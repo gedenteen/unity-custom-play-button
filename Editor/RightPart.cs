@@ -29,10 +29,17 @@ namespace ASze.CustomPlayButton
 
         static void OnToolbarGUI()
         {
-            GUILayout.Label($"TimeScale: {m_sliderValue:F2}", GUILayout.Width(100f));
-          
+            GUILayout.Label($"TimeScale: {m_sliderValue:F2}",
+                GUILayout.Width(CustomPlayButton.GuiSettings.TimeScaleLabelWidth)
+            );
+
             EditorGUI.BeginChangeCheck();
-            m_sliderValue = GUILayout.HorizontalSlider(m_sliderValue, 0f, 2f, GUILayout.Width(150f));
+            m_sliderValue = GUILayout.HorizontalSlider(
+                m_sliderValue,
+                0f,
+                CustomPlayButton.GuiSettings.MaxTimeScaleValue,
+                GUILayout.Width(CustomPlayButton.GuiSettings.TimeScaleSliderWidth)
+            );
           
             if (EditorGUI.EndChangeCheck())
             {

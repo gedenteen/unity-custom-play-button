@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.3.2] - 2026-04-16
 ### Fixed
 - Forgotten rename of meta-file
+### Added
+- New settings in GuiSettings
 
 ## [1.3.1] - 2026-04-16
 ### Fixed
