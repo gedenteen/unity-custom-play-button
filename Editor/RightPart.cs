@@ -29,6 +29,8 @@ namespace ASze.CustomPlayButton
 
         static void OnToolbarGUI()
         {
+            GUILayout.Space(CustomPlayButton.GuiSettings.MarginsWidth);
+
             GUILayout.Label($"TimeScale: {m_sliderValue:F2}",
                 GUILayout.Width(CustomPlayButton.GuiSettings.TimeScaleLabelWidth)
             );

@@ -205,6 +205,8 @@ namespace ASze.CustomPlayButton
                     GUILayout.BeginHorizontal();
                 }
             }
+
+            GUILayout.Space(GuiSettings.MarginsWidth);
         }
 
         static void StartScene(SceneAsset scene)

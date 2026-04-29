@@ -17,5 +17,9 @@ namespace ASze.CustomPlayButton
 
         [Header("Compile time")]
         public bool ShouldShowCompileTime = true;
+
+        [Header("Other settings")]
+        [Tooltip("Margins around default buttons")]
+        public float MarginsWidth = 5f;
     }
 }
